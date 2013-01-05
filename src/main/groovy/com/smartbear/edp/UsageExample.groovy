@@ -24,16 +24,22 @@ def sub2Events = [ ]
 EventSubscriber sub2 = [ handle: { e -> sub2Events << e } ] as EventSubscriber
 sub2.sourceBaseType = A
 
+// sub3 is more fussy than sub2 and wants only events sent by instances of B
+def sub3Events = [ ]
+EventSubscriber sub3 = [ handle: { e -> sub3Events << e } ] as EventSubscriber
+sub3.sourceBaseType = B
+
 // subscribe with the event bus
 bus.subscribeWeak sub1, EventObject
 bus.subscribeWeak sub2, SpecialEvent
+bus.subscribeWeak sub3, SpecialEvent
 
 // send some events
 bus.post new EventObject( 'normal sender' )                // sub1 will get this
 bus.post new EventObject( true )                           // sub1 gets this also
 bus.post new SpecialEvent( 'No subscribers for this one' ) // this will be lost
 bus.post new SpecialEvent( new A( value: 1 ) )               // sub2 gets this
-bus.post new SpecialEvent( new B( value: 2, name: 'John' ) ) // sub2 gets this too
+bus.post new SpecialEvent( new B( value: 2, name: 'John' ) ) // sub2 gets this, and sub3 too
 
 // let the events be handled
 sleep 100
@@ -51,5 +57,11 @@ assert sub2Events[ 0 ].source.value == 1
 assert sub2Events[ 1 ].source.class == B
 assert sub2Events[ 1 ].source.value == 2
 assert sub2Events[ 1 ].source.name == 'John'
+
+assert sub3Events.size() == 1
+assert sub3Events[0].class == SpecialEvent
+assert sub3Events[0].source.class == B
+assert sub3Events[0].source.value == 2
+assert sub3Events[0].source.name == 'John'
 
 println 'All done!'
