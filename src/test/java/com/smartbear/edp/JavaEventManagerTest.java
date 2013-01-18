@@ -3,6 +3,7 @@ package com.smartbear.edp;
 import com.smartbear.edp.JavaEventManager.JavaEventSubscriber;
 import junit.framework.TestCase;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
@@ -24,7 +25,7 @@ public class JavaEventManagerTest extends TestCase {
 			}, EventObject.class );
 		}
 
-		EventManagerTest.forceGC();
+		forceGC();
 		// must post an event for the manager to get rid of weakRefs
 		manager.post( new EventObject( "" ) );
 
@@ -40,7 +41,7 @@ public class JavaEventManagerTest extends TestCase {
 		for ( JavaEventSubscriber<EventObject> ref : strongRefs ) {
 			manager.subscribeWeak( ref, EventObject.class );
 		}
-		EventManagerTest.forceGC();
+		forceGC();
 		// must post an event for the manager to get rid of weakRefs
 		manager.post( new EventObject( "" ) );
 
@@ -177,5 +178,11 @@ public class JavaEventManagerTest extends TestCase {
 		long count;
 	}
 
-
+	static void forceGC( ) {
+		WeakReference weakRef = new WeakReference( new Object() );
+		while ( weakRef.get() != null ) {
+			String[] str = new String[99999];
+		}
+		System.out.println( "GC Performed" );
+	}
 }

@@ -10,7 +10,7 @@ class ScalaEventManager {
 
   private val bus = new EventBus
   private val handlers = scala.collection.mutable.Map[
-    Class[ _ <: EventObject ], ArrayBuffer[ WeakReference[ScalaSubscriber] ] ]()
+    Class[_ <: EventObject], ArrayBuffer[WeakReference[ScalaSubscriber]]]()
   val empty = ArrayBuffer[WeakReference[ScalaSubscriber]]()
 
   bus.register(this)
@@ -21,17 +21,16 @@ class ScalaEventManager {
     val deadRefs = new ArrayBuffer[WeakReference[ScalaSubscriber]]
     val refs = handlers.getOrElse(event.getClass, empty)
 
-    refs.foreach{ ref: WeakReference[ScalaSubscriber] =>
-      ref match {
-        case Some(subscriber) =>
-          if (subscriber.sourceBaseType.isAssignableFrom(event.getSource.getClass)) sub.handle(event)
-        case None => deadRefs += ref
-      }
+    refs.foreach {
+      ref =>
+          ref.get match {
+            case Some(sub) => if (sub.sourceBaseType isAssignableFrom event.getSource.getClass) sub.handle(event)
+            case None => deadRefs += ref
+          }
     }
-
     refs --= deadRefs
-
   }
+
 
   def post(event: EventObject) {
     println("Posting event: " + event)
@@ -58,6 +57,7 @@ object MapsTest {
 
     val sub1 = new ScalaSubscriber {
       val sourceBaseType = classOf[Number]
+
       def handle(event: EventObject) {
         println("Handling event: " + event.asInstanceOf[SpecialEvent])
       }

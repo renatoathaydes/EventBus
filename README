@@ -1,6 +1,7 @@
 This is a wrapper around Guava's EventBus which uses weak references around Subscribers, which allows this EventBus to automatically unregister subscribers when it is detected that the Subscriber has been garbage collected.
 
 The Event Bus is written in EventManager.groovy and EventManager.java (the two implementations work in exactly the same way).
+A Scala implementation has also been added (ScalaEventManager.scala).
 
 The unit tests run a performance comparison between the Groovy and the Java versions. Results indicate the Java version is at least 5 times faster, although the Groovy version has much cleaner code.
 
