@@ -5,6 +5,6 @@ A Scala implementation has also been added (ScalaEventManager.scala).
 
 The unit tests run a performance comparison between the Groovy and the Java versions. Results indicate the Java version is at least 5 times faster, although the Groovy version has much cleaner code.
 
-Check out the usage Example at: src\main\groovy\com\smartbear\edp\UsageExample.groovy
+Check out the usage examples in the test folders (eg. src\test\groovy\com\smartbear\edp\groovy\EventManagerTests.groovy)
 
 Email: renato@athaydes.com

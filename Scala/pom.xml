@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.smartbear.edp</groupId>
+		<artifactId>edp</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.smartbear.edp</groupId>
+	<artifactId>scala-edp</artifactId>
+	<packaging>bundle</packaging>
+	<name>Scala implementation of Event-Driven-Project (EDP)</name>
+	<url>https://github.com/renatoathaydes/EventBus</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.smartbear.edp</groupId>
+			<artifactId>edp-core</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_2.10</artifactId>
+			<version>1.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- for packaging as an OSGi bundle, we use the maven-bundle-plugin -->
+
+	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
+	<build>
+
+		<sourceDirectory>src/main/scala</sourceDirectory>
+		<testSourceDirectory>src/test/scala</testSourceDirectory>
+
+		<resources>
+			<!-- standard Maven folder -->
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!-- plus root folder -->
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>plugin.xml</include>
+					<include>META-INF/*</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>2.3.7</version>
+				<configuration>
+					<manifestLocation>META-INF</manifestLocation>
+					<instructions>
+						<Export-Package>com.smartbear.com.smartbear.edp.java.scala</Export-Package>
+						<Import-Package>*</Import-Package>
+						<!--
+							  add ,plugin.xml if it's present i.e.
+							  src/main/resources,plugin.xml
+						   -->
+						<Include-Resource>src/main/resources</Include-Resource>
+					</instructions>
+				</configuration>
+				<executions>
+					<execution>
+						<!-- generate manifest automatically once the classes are processed -->
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- disable surefire -->
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-surefire-plugin</artifactId>-->
+				<!--<version>2.7</version>-->
+				<!--<configuration>-->
+					<!--<skipTests>true</skipTests>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+			<!--&lt;!&ndash; enable scalatest &ndash;&gt;-->
+			<!--<plugin>-->
+				<!--<groupId>org.scalatest</groupId>-->
+				<!--<artifactId>maven-scalatest-plugin</artifactId>-->
+				<!--<version>1.0-SNAPSHOT</version>-->
+				<!--<configuration>-->
+					<!--<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>-->
+					<!--<junitxml>.</junitxml>-->
+					<!--<filereports>ScalaTestSuite.txt</filereports>-->
+				<!--</configuration>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>test</id>-->
+						<!--<goals>-->
+							<!--<goal>test</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
+		</plugins>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>scala-tools.org</id>
+			<name>Scala-tools Maven2 Repository</name>
+			<url>http://scala-tools.org/repo-releases</url>
+		</pluginRepository>
+		<!-- Need this for the ScalaTest plugin -->
+		<pluginRepository>
+			<id>org.scalatest</id>
+			<name>ScalaTest Repository</name>
+			<url>https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest-maven-plugin/1.0-M2/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>scala-tools.org</id>
+			<name>Scala-tools Maven2 Repository</name>
+			<url>http://scala-tools.org/repo-releases</url>
+		</repository>
+	</repositories>
+
+</project>

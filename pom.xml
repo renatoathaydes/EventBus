@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.smartbear.edp</groupId>
 	<artifactId>edp</artifactId>
-	<packaging>bundle</packaging>
-	<name>Spring OSGi Bundle</name>
+	<packaging>pom</packaging>
+	<name>Event-Driven-Project (EDP)</name>
 	<version>0.1-SNAPSHOT</version>
-	<url>http://www.springframework.org/osgi</url>
+	<url>https://github.com/renatoathaydes/EventBus</url>
 
 	<properties>
 		<slf4j.version>1.4.3</slf4j.version>
@@ -15,6 +15,11 @@
 		<spring.osgi.version>1.0.2</spring.osgi.version>
 		<equinox.ver>3.2.2</equinox.ver>
 	</properties>
+
+	<modules>
+		<module>edp-core</module>
+		<module>groovy-edp</module>
+	</modules>
 
 	<dependencies>
 
@@ -61,7 +66,7 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
-			<version>4.0</version>
+			<version>5.0.0</version>
 		</dependency>
 
 		<!-- test scoped dependencies -->
@@ -117,62 +122,6 @@
 
 	</dependencies>
 
-	<!-- for packaging as an OSGi bundle, we use the maven-bundle-plugin -->
-
-	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
-	<build>
-		<resources>
-			<!-- standard Maven folder -->
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- plus root folder -->
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.xml</include>
-					<include>META-INF/*</include>
-				</includes>
-			</resource>
-		</resources>
-
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<version>1.0.0</version>
-				<configuration>
-					<manifestLocation>META-INF</manifestLocation>
-					<instructions>
-						<Export-Package>!com.smartbear.edp.impl,com.smartbear.edp*</Export-Package>
-						<Import-Package>*</Import-Package>
-						<!--
-							  add ,plugin.xml if it's present i.e.
-							  src/main/resources,plugin.xml
-						   -->
-						<Include-Resource>src/main/resources</Include-Resource>
-					</instructions>
-				</configuration>
-			</plugin>
-
-			<!-- generate manifest automatically once the classes are processed -->
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
 	<!-- ================================================ -->
 	<!--            Repository Configuration              -->
 	<!-- ================================================ -->
@@ -187,11 +136,6 @@
 			<id>eclipse-repository</id>
 			<name>Eclipse Repository</name>
 			<url>http://repo1.maven.org/eclipse/</url>
-		</repository>
-		<repository>
-			<id>safehaus-repository</id>
-			<name>Safehaus Repository</name>
-			<url>http://m2.safehaus.org</url>
 		</repository>
 		<repository>
 			<id>spring-ext</id>
