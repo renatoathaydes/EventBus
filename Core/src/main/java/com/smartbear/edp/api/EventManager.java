@@ -3,6 +3,10 @@ package com.smartbear.edp.api;
 import java.util.EventObject;
 
 /**
+ * Central part of the Event-Driven-Project API, the EventManager manages all events,
+ * notifying subscribers of events they showed interested in. Events can be posted
+ * by any Object with a reference to this EventManager. Subscribers must implement
+ * the {@link EventSubscriber} interface.
  * User: Renato
  */
 public interface EventManager {
@@ -26,7 +30,8 @@ public interface EventManager {
 	<K extends EventObject> void subscribeWeakly( EventSubscriber<K> subscriber, Class<K> eventType );
 
 	/**
-	 * Unsubscribe the given subscriber to listening to events. Notice that when using 'subscribeWeakly'
+	 * Unsubscribe the given subscriber so it will stop listening to events.
+	 * Notice that when using 'subscribeWeakly'
 	 * to subscribe, it is NOT necessary to call this method to avoid memory-leaks.
 	 * @param subscriber to be unsubscribed
 	 * @param <K> Type of the Event

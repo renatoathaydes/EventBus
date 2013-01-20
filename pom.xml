@@ -19,6 +19,8 @@
 	<modules>
 		<module>edp-core</module>
 		<module>groovy-edp</module>
+		<module>java-edp</module>
+		<module>scala-edp</module>
 	</modules>
 
 	<dependencies>
