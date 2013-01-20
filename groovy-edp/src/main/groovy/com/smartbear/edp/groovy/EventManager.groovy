@@ -18,23 +18,23 @@ class GroovyEventManager implements EventManager {
 	protected handlers = [:]
 
 	GroovyEventManager() {
-		bus.register( this )
+		bus.register this
 	}
 
 	@Subscribe
 	void onEvent( event ) {
 		def deadRefs = []
-		def handler = handlers[event.class]
-		handler?.each { ref ->
-			def subscriber = ref.get()
+		def handlersList = handlers[event.class]
+		handlersList?.each { ref ->
+			def subscriber = ref instanceof WeakReference ? ref.get() : ref
 			if (subscriber) {
 				if ( subscriber.sourceBaseType.isAssignableFrom( event.source.class ) )
-					subscriber.handle( event )
+					subscriber.handle event
 			} else {
 				deadRefs << ref
 			}
 		}
-		handler?.removeAll( deadRefs )
+		handlersList?.removeAll( deadRefs )
 	}
 
 	@Override
