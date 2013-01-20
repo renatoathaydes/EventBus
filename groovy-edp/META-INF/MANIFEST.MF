@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1358706910608
+Bnd-LastModified: 1358709740054
 Build-Jdk: 1.7.0
 Built-By: Renato
 Bundle-ManifestVersion: 2
@@ -8,9 +8,8 @@ Bundle-SymbolicName: com.smartbear.edp.groovy-edp
 Bundle-Version: 0.1.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Import-Package: com.google.common.eventbus;version="[13.0,14)",com.smart
- bear.com.smartbear.edp.java.groovy,com.smartbear.edp.api;version="[0.1,
- 1)",groovy.lang;version="[2.0,3)",org.codehaus.groovy.reflection;versio
- n="[2.0,3)",org.codehaus.groovy.runtime;version="[2.0,3)",org.codehaus.
- groovy.runtime.callsite;version="[2.0,3)",org.codehaus.groovy.runtime.t
- ypehandling;version="[2.0,3)"
+ bear.edp.api;version="[0.1,1)",groovy.lang;version="[2.0,3)",org.codeha
+ us.groovy.reflection;version="[2.0,3)",org.codehaus.groovy.runtime;vers
+ ion="[2.0,3)",org.codehaus.groovy.runtime.callsite;version="[2.0,3)",or
+ g.codehaus.groovy.runtime.typehandling;version="[2.0,3)"
 Tool: Bnd-1.50.0
