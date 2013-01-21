@@ -1,5 +1,8 @@
 package com.smartbear.edp.java;
 
+import com.smartbear.edp.api.EventSubscriberBase;
+import org.junit.Test;
+
 import java.util.EventObject;
 
 /**
@@ -8,19 +11,21 @@ import java.util.EventObject;
 public class EventManagerTest {
 	//TODO implement
 
-	public static abstract class JavaEventSubscriber<K extends EventObject> {
-		private Class<?> sourceBaseType = Object.class;
-
-		public abstract void handle( K event );
-
-		public Class<?> getSourceBaseType() {
-			return sourceBaseType;
+	public static class JavaEventSubscriber<K extends EventObject>
+			extends EventSubscriberBase<K> {
+		public void handle( K event ) {
+			//TODO
 		}
+	}
 
-		public void setSourceBaseType( Class<?> sourceBaseType ) {
-			this.sourceBaseType = sourceBaseType;
-		}
+	@Test
+	public void testWeakly() {
+		//TODO
+	}
 
+	@Test
+	public void testStrongly() {
+		//TODO
 	}
 
 }

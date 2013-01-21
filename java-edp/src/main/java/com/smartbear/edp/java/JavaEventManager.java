@@ -13,9 +13,27 @@ import java.util.*;
  */
 public class JavaEventManager implements EventManager {
 
+	/**
+	 * Helper class which transparently keeps either a weak or strong reference
+	 * to a subscriber.
+	 */
+	private class SubscriberRef {
+		WeakReference<EventSubscriber<?>> weakRef;
+		EventSubscriber<?> strongRef;
+		boolean isStrongRef;
+		SubscriberRef(EventSubscriber<?> subscriber, boolean isStrongRef) {
+			this.isStrongRef = isStrongRef;
+			if (isStrongRef) strongRef = subscriber;
+			else weakRef = new WeakReference<EventSubscriber<?>>( subscriber );
+		}
+		EventSubscriber<?> get() {
+			return isStrongRef ? strongRef : weakRef.get();
+		}
+	}
+
 	private EventBus bus = new EventBus();
-	Map<Class<?>, List<WeakReference<EventSubscriber<?>>>> handlers =
-			new HashMap<>();
+	Map<Class<?>, List<SubscriberRef>> handlers = new HashMap<>();
+
 
 	public JavaEventManager() {
 		bus.register( this );
@@ -23,10 +41,10 @@ public class JavaEventManager implements EventManager {
 
 	@Subscribe
 	public void onEvent( EventObject event ) {
-		List<WeakReference<EventSubscriber<?>>> deadRefs = new ArrayList<>();
-		List<WeakReference<EventSubscriber<?>>> refs = handlers.get( event.getClass() );
+		List<SubscriberRef> deadRefs = new ArrayList<>();
+		List<SubscriberRef> refs = handlers.get( event.getClass() );
 		if ( refs != null ) {
-			for ( WeakReference<EventSubscriber<?>> ref : refs ) {
+			for ( SubscriberRef ref : refs ) {
 				EventSubscriber subscriber = ref.get();
 				if ( subscriber != null ) {
 					if ( subscriber.getSourceBaseType().isAssignableFrom( event.getSource().getClass() ) )
@@ -41,26 +59,34 @@ public class JavaEventManager implements EventManager {
 
 	@Override
 	public <K extends EventObject> void subscribe( EventSubscriber<K> subscriber, Class<K> eventType ) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		doSubscribe( subscriber, eventType, true );
 	}
 
 	@Override
 	public <K extends EventObject> void subscribeWeakly( EventSubscriber<K> subscriber, Class<K> eventType ) {
-		List<WeakReference<EventSubscriber<?>>> refs = handlers.get( eventType );
+		doSubscribe( subscriber, eventType, false );
+	}
+
+	private <K extends EventObject> void doSubscribe( EventSubscriber<K> subscriber,
+	           Class<K> eventType, boolean isStrongRef ) {
+		List<SubscriberRef> refs = handlers.get( eventType );
 		if ( refs == null ) {
 			refs = new ArrayList<>();
 			handlers.put( eventType, refs );
 		}
-		refs.add( new WeakReference( subscriber ) );
-	}
-
-	private <K extends EventObject> void doSubscribe( EventSubscriber<K> subscriber, Class<K> eventType ) {
-		//TODO implement
+		refs.add( new SubscriberRef( subscriber, isStrongRef ) );
 	}
 
 	@Override
 	public <K extends EventObject> void unSubscribe( EventSubscriber<K> subscriber ) {
-		//TODO implement
+		for ( List<SubscriberRef> refs : handlers.values() ) {
+			for ( Iterator<SubscriberRef> it = refs.iterator(); it.hasNext();) {
+				if ( subscriber == it.next().get() ) {
+					it.remove();
+					return;
+				}
+			}
+		}
 	}
 
 	public void post( EventObject event ) {
