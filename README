@@ -62,7 +62,7 @@ http://groovy.codehaus.org/OSGi+and+Groovy#OSGiandGroovy-IncludingtheGroovyJarwi
 Basically, you just need to add the jar file somehwere in your own JAR, for example:
   * lib/groovy-all-2.0.jar
 Also, declare you bundle classpath as something like this:
-  * Bundle-ClassPath: .,groovy-all-2.0.jar
+  * Bundle-ClassPath: .,lib/groovy-all-2.0.jar
 
 The included JAR will not be visible or exported into the OSGI framework.
 
