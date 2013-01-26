@@ -14,6 +14,8 @@
 		<spring.maven.artifact.version>2.5.1</spring.maven.artifact.version>
 		<spring.osgi.version>1.0.2</spring.osgi.version>
 		<equinox.ver>3.2.2</equinox.ver>
+		<groovy.ver>2.0.6</groovy.ver>
+		<guava.ver>13.0.1</guava.ver>
 	</properties>
 
 	<modules>
@@ -21,6 +23,7 @@
 		<module>groovy-edp</module>
 		<module>java-edp</module>
 		<module>scala-edp</module>
+		<module>test-osgi-app</module>
 	</modules>
 
 	<dependencies>
@@ -28,7 +31,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>13.0.1</version>
+			<version>${guava.ver}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

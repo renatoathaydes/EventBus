@@ -1,3 +1,5 @@
+## Overview
+
 This is a wrapper around Guava's EventBus which uses weak references around Subscribers, which allows this EventBus to automatically unregister subscribers when it is detected that the Subscriber has been garbage collected.
 
 The Event Bus is written in EventManager.groovy and EventManager.java (the two implementations work in exactly the same way).
@@ -6,5 +8,63 @@ A Scala implementation has also been added (ScalaEventManager.scala).
 The unit tests run a performance comparison between the Groovy and the Java versions. Results indicate the Java version is at least 5 times faster, although the Groovy version has much cleaner code.
 
 Check out the usage examples in the test folders (eg. src\test\groovy\com\smartbear\edp\groovy\EventManagerTests.groovy)
+
+## OSGI with BluePrint
+
+This project was created using OSGI and Gemini BluePrint (formerly Spring Dynamic Modules) in order to explore those technologies.
+The main module, EDP, contains several modules, most of which are OSGI bundles:
+  * edp-core: defines EDP's API. It is not a bundle as it only defines the API and offers no implementation.
+  * groovy-edp (Bundle): implementation of edp-core using the Groovy language.
+  * java-edp (Bundle): implementation of edp-core using the Java language.
+  * scala-edp (Bundle): implementation of edp-core using the Scala language.
+  * test-osgi-app (Bundle): a simplest possible consumer of the edp-core API.
+
+Notice that when deploying the test-osgi-app, only one of the other bundles also need to be deployed for it to have access to
+an implementation bundle.
+
+__For the OSGI-BluePrint bundles to work, notice that you must install several bundles first into your OSGI deployment folder
+(under the bundle/ folder by default).
+The following explains what bundles are required (Source: http://www.eclipse.org/gemini/blueprint/documentation/reference/1.0.2.RELEASE/html/app-deploy.html)
+
+The Gemini Blueprint project provides a number of bundle artifacts that must be installed in your OSGi platform in order for the Spring extender to function correctly:
+The extender bundle itself, org.eclipse.gemini.blueprint.extender
+The core implementation bundle for the Gemini Blueprint support, org.eclipse.gemini.blueprint.core
+The Gemini Blueprint I/O support library bundle, org.eclipse.gemini.blueprint.io
+
+In addition, the Spring Framework provides a number of bundles that are required to be installed as dependencies. As of release 2.5 of the Spring Framework, the Spring jars included in the Spring distribution are valid OSGi bundles and can be installed directly into an OSGi platform. The minimum required set of bundles is:
+  * org.springframework.aop.jar (bundle symbolic name org.springframework.aop)
+  * org.springframework.asm.jar (bundle symbolic name org.springframework.asm)
+  * org.springframework.beans.jar (bundle symbolic name org.springframework.beans)
+  * org.springframework.core.jar (bundle symbolic name org.springframework.core)
+  * org.springframework.context.jar (bundle symbolic name org.springframework.context)
+  * org.springframework.expression.jar (bundle symbolic name org.springframework.expression)
+
+In additional the following supporting library bundles are required. OSGi-ready versions of these libraries are shipped with the Gemini Blueprint distribution.
+  * aopalliance
+  * cglib-nodep (when proxying classes rather then interfaces, needed in most cases)
+  * commons-logging API (SLF4J version highly recommended:
+  * SLF4J API (com.springsource.sfl4j.api.jar)
+  * SLF4J Implementation Bridge (such as Log4j - com.springsource.sfl4j.log4j.jar)
+  * SLF4J commons logging adapter (com.springsource.sfl4j.org.apache.commons.logging.jar)
+    logging implementation suitable for commons-logging (such as log4j)__
+
+
+The Spring bundles can be found here: http://ebr.springsource.com/repository/app/bundle
+The BluePrint bundles can be found here: http://www.eclipse.org/gemini/blueprint/download/
+
+## Including third-party JARs into your bundle
+
+It is possible to include third-party JARs into your bundle so that your dependencies do not need to be included into
+the OSGI framework during run-time.
+For example, to include the Groovy JAR into a bundle, see this document:
+http://groovy.codehaus.org/OSGi+and+Groovy#OSGiandGroovy-IncludingtheGroovyJarwithinaBundle
+
+Basically, you just need to add the jar file somehwere in your own JAR, for example:
+  * lib/groovy-all-2.0.jar
+Also, declare you bundle classpath as something like this:
+  * Bundle-ClassPath: .,groovy-all-2.0.jar
+
+The included JAR will not be visible or exported into the OSGI framework.
+
 
 Email: renato@athaydes.com

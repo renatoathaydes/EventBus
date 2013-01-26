@@ -2,10 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+	<parent>
+		<groupId>com.smartbear.edp</groupId>
+		<artifactId>edp</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.smartbear.edp</groupId>
 	<artifactId>test-osgi-app</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<packaging>bundle</packaging>
 	<name>Test OSGi App for the EDP Project</name>
 	<url>https://github.com/renatoathaydes/EventBus</url>
@@ -14,12 +20,12 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>2.0.6</version>
+			<version>${groovy.ver}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
 			<artifactId>edp-core</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -65,12 +71,9 @@
 				<configuration>
 					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
-						<!--<Import-Package>com.smartbear.edp.java.api,com.smartbear.edp.java.groovy</Import-Package>-->
-						<!--
-							  add ,plugin.xml if it's present i.e.
-							  src/main/resources,plugin.xml
-						   -->
 						<Include-Resource>src/main/resources</Include-Resource>
+						<!-- This bundle does not export anything -->
+						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>
 				<executions>

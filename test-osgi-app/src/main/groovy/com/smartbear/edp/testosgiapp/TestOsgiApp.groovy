@@ -16,14 +16,14 @@ class TestOsgiApp {
 		stars()
 	}
 
-	def stars() { println '*' * 50 }
+	def stars( ) { println '*' * 50 }
 
-	void start() {
+	void start( ) {
 		stars()
 		println 'Starting TestOsgiApp'
 	}
 
-	void stop() {
+	void stop( ) {
 		stars()
 		println 'Stopping TestOsgiApp'
 	}
