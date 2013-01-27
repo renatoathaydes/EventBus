@@ -1,6 +1,10 @@
 package com.smartbear.edp.testosgiapp
 
 import com.smartbear.edp.api.EventManager
+import com.smartbear.edp.testosgiapp.swing.AppGui
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 
 /**
  * A simple example on setting up and starting a Spring-OSGi app.
@@ -10,22 +14,34 @@ import com.smartbear.edp.api.EventManager
  */
 class TestOsgiApp {
 
+	static final Logger log = LoggerFactory.getLogger( TestOsgiApp.class )
+
+	final gui
+
 	TestOsgiApp( EventManager manager ) {
-		stars()
-		println "Got the EventManager: ${manager.class.name}"
-		stars()
+		log.info stars() + "\nEventManager's class hierarchy: " +
+				classHierarchy( manager.class ).reverse()
+		gui = new AppGui( manager )
 	}
 
-	def stars( ) { println '*' * 50 }
+	def stars( ) { '*' * 50 }
+
+	def classHierarchy( Class clazz, acc = [] ) {
+		if ( clazz ) {
+			acc << clazz.name
+			classHierarchy clazz.superclass, acc
+		}
+		return acc
+	}
 
 	void start( ) {
-		stars()
-		println 'Starting TestOsgiApp'
+		log.info stars() + "\nStarting TestOsgiApp"
+		gui.show()
 	}
 
 	void stop( ) {
-		stars()
-		println 'Stopping TestOsgiApp'
+		log.info stars() + "\nStopping TestOsgiApp"
+		gui.hide()
 	}
 
 }

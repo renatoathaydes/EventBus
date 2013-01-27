@@ -8,6 +8,9 @@
 		   configuration file so that this file can easily be used
 		   for integration testing outside of an OSGi environment -->
 
-	<bean name="eventManager" class="com.smartbear.edp.groovy.GroovyEventManager" />
+	<bean name="testOsgiApp" class="com.smartbear.edp.testosgiapp.TestOsgiApp"
+	      init-method="start" destroy-method="stop" lazy-init="false">
+		<constructor-arg ref="eventManager" />
+	</bean>
 
 </beans>

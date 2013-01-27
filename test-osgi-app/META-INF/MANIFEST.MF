@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1359209911004
+Bnd-LastModified: 1359318286417
 Build-Jdk: 1.7.0
 Built-By: Renato
 Bundle-ManifestVersion: 2
@@ -7,8 +7,11 @@ Bundle-Name: Test OSGi App for the EDP Project
 Bundle-SymbolicName: com.smartbear.edp.test-osgi-app
 Bundle-Version: 0.1.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Import-Package: com.smartbear.edp.api,groovy.lang;version="[2.0,3)",org.
- codehaus.groovy.reflection;version="[2.0,3)",org.codehaus.groovy.runtim
- e;version="[2.0,3)",org.codehaus.groovy.runtime.callsite;version="[2.0,
- 3)"
+Import-Package: com.smartbear.edp.api,groovy.lang;version="[2.0,3)",groo
+ vy.swing;version="[2.0,3)",javax.swing,org.codehaus.groovy.reflection;v
+ ersion="[2.0,3)",org.codehaus.groovy.runtime;version="[2.0,3)",org.code
+ haus.groovy.runtime.callsite;version="[2.0,3)",org.codehaus.groovy.runt
+ ime.typehandling;version="[2.0,3)",org.slf4j;version="[1.4,2)"
+Spring-Context: META-INF/spring/bundle-context.xml,META-INF/spring/bundl
+ e-context-osgi.xml
 Tool: Bnd-1.50.0

@@ -74,6 +74,8 @@
 						<Include-Resource>src/main/resources</Include-Resource>
 						<!-- This bundle does not export anything -->
 						<Export-Package></Export-Package>
+						<!-- This should not be necessary because it's the default for Spring DM anyway -->
+						<Spring-Context>META-INF/spring/bundle-context.xml,META-INF/spring/bundle-context-osgi.xml</Spring-Context>
 					</instructions>
 				</configuration>
 				<executions>
