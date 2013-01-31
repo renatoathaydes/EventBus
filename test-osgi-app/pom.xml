@@ -27,6 +27,21 @@
 			<artifactId>edp-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-core</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-extender</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-io</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 
 	<!-- for packaging as an OSGi bundle, we use the maven-bundle-plugin -->
@@ -76,6 +91,9 @@
 						<Export-Package></Export-Package>
 						<!-- This should not be necessary because it's the default for Spring DM anyway -->
 						<Spring-Context>META-INF/spring/bundle-context.xml,META-INF/spring/bundle-context-osgi.xml</Spring-Context>
+
+						<!--<Embed-Dependency>*;artifactId=org.apache.felix.main;inline=true</Embed-Dependency>-->
+						<Embed-Dependency>*</Embed-Dependency>
 					</instructions>
 				</configuration>
 				<executions>

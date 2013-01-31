@@ -27,10 +27,6 @@ class AppGui {
 		// otherwise this bundle will not get access to Swing classes
 		UIManager.getDefaults().put( "ClassLoader",
 				JButton.class.classLoader )
-		new JButton( )
-		new JPanel( )
-		new JButton( )
-		new JTextArea( )
 	}
 
 	void show() {
