@@ -14,7 +14,7 @@ class SubscriberPanel extends EventSubscriberBase<GuiAppEvent> {
 	final model = new Model()
 	final MAX_EVENTS = 5
 
-	def final makeWith = { swing ->
+	def makeWith( swing ) {
 		swing.panel() {
 			textArea(editable: false, lineWrap: true, preferredSize: [400, 70],
 					text: bind(source: model, sourceProperty: "events",

@@ -10,8 +10,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.smartbear.edp</groupId>
 	<artifactId>edp-core</artifactId>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 	<name>Core Event-Driven-Project (EDP)</name>
 	<url>https://github.com/renatoathaydes/EventBus</url>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>2.3.7</version>
+				<configuration>
+					<instructions>
+						<Export-Package>com.smartbear.edp.*</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

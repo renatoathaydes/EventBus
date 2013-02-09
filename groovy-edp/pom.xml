@@ -31,21 +31,6 @@
 
 	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
 	<build>
-		<resources>
-			<!-- standard Maven folder -->
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- plus root folder -->
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.xml</include>
-					<include>META-INF/*</include>
-				</includes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -67,26 +52,10 @@
 				<extensions>true</extensions>
 				<version>2.3.7</version>
 				<configuration>
-					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
-						<Export-Package>com.smartbear.edp.api</Export-Package>
-						<!--
-							  add ,plugin.xml if it's present i.e.
-							  src/main/resources,plugin.xml
-						   -->
-						<Include-Resource>src/main/resources</Include-Resource>
+						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- generate manifest automatically once the classes are processed -->
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- This is necessary to tell Maven that there are sources in the groovy folder -->

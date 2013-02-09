@@ -16,21 +16,20 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.smartbear.edp</groupId>
 			<artifactId>edp-core</artifactId>
 			<version>${project.parent.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
 			<artifactId>groovy-edp</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -39,21 +38,6 @@
 
 	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
 	<build>
-		<resources>
-			<!-- standard Maven folder -->
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- plus root folder -->
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.xml</include>
-					<include>META-INF/*</include>
-				</includes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -61,27 +45,10 @@
 				<extensions>true</extensions>
 				<version>2.3.7</version>
 				<configuration>
-					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
-						<Export-Package>com.smartbear.edp.java</Export-Package>
-						<Import-Package>*</Import-Package>
-						<!--
-							  add ,plugin.xml if it's present i.e.
-							  src/main/resources,plugin.xml
-						   -->
-						<Include-Resource>src/main/resources</Include-Resource>
+						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- generate manifest automatically once the classes are processed -->
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

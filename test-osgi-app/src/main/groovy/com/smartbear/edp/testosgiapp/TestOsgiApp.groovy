@@ -18,10 +18,10 @@ class TestOsgiApp {
 
 	final gui
 
-	TestOsgiApp( EventManager manager ) {
+	TestOsgiApp( List<EventManager> managers ) {
 		log.info stars() + "\nEventManager's class hierarchy: " +
-				classHierarchy( manager.class ).reverse()
-		gui = new AppGui( manager )
+				classHierarchy( managers.class ).reverse()
+		gui = new AppGui( managers )
 	}
 
 	def stars( ) { '*' * 50 }

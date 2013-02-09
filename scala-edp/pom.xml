@@ -30,11 +30,12 @@
 			<groupId>org.scalatest</groupId>
 			<artifactId>scalatest_2.10</artifactId>
 			<version>1.9.1</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -43,25 +44,8 @@
 
 	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
 	<build>
-
 		<sourceDirectory>src/main/scala</sourceDirectory>
 		<testSourceDirectory>src/test/scala</testSourceDirectory>
-
-		<resources>
-			<!-- standard Maven folder -->
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- plus root folder -->
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.xml</include>
-					<include>META-INF/*</include>
-				</includes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -69,29 +53,11 @@
 				<extensions>true</extensions>
 				<version>2.3.7</version>
 				<configuration>
-					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
-						<Export-Package>com.smartbear.com.smartbear.edp.java.scala</Export-Package>
-						<Import-Package>*</Import-Package>
-						<!--
-							  add ,plugin.xml if it's present i.e.
-							  src/main/resources,plugin.xml
-						   -->
-						<Include-Resource>src/main/resources</Include-Resource>
+						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- generate manifest automatically once the classes are processed -->
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
@@ -104,35 +70,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- disable surefire -->
-			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-surefire-plugin</artifactId>-->
-				<!--<version>2.7</version>-->
-				<!--<configuration>-->
-					<!--<skipTests>true</skipTests>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
-			<!--&lt;!&ndash; enable scalatest &ndash;&gt;-->
-			<!--<plugin>-->
-				<!--<groupId>org.scalatest</groupId>-->
-				<!--<artifactId>maven-scalatest-plugin</artifactId>-->
-				<!--<version>1.0-SNAPSHOT</version>-->
-				<!--<configuration>-->
-					<!--<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>-->
-					<!--<junitxml>.</junitxml>-->
-					<!--<filereports>ScalaTestSuite.txt</filereports>-->
-				<!--</configuration>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<id>test</id>-->
-						<!--<goals>-->
-							<!--<goal>test</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
 		</plugins>
 	</build>
 

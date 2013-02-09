@@ -9,12 +9,14 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.smartbear.edp</groupId>
 	<artifactId>test-osgi-app</artifactId>
-	<version>${project.parent.version}</version>
 	<packaging>bundle</packaging>
 	<name>Test OSGi App for the EDP Project</name>
 	<url>https://github.com/renatoathaydes/EventBus</url>
+
+	<properties>
+		<bundles.dir>${project.build.directory}/bundles</bundles.dir>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -22,25 +24,15 @@
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.ver}</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.codehaus.groovyfx</groupId>-->
+			<!--<artifactId>groovyfx</artifactId>-->
+			<!--<version>0.3.1</version>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
 			<artifactId>edp-core</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>spring-osgi-core</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>spring-osgi-extender</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>spring-osgi-io</artifactId>
-			<version>1.0.2</version>
 		</dependency>
 	</dependencies>
 
@@ -48,21 +40,6 @@
 
 	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
 	<build>
-		<resources>
-			<!-- standard Maven folder -->
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- plus root folder -->
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.xml</include>
-					<include>META-INF/*</include>
-				</includes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -84,28 +61,11 @@
 				<extensions>true</extensions>
 				<version>2.3.7</version>
 				<configuration>
-					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
-						<Include-Resource>src/main/resources</Include-Resource>
-						<!-- This bundle does not export anything -->
+						<Import-Package>!org.osgi.service.blueprint,*</Import-Package>
 						<Export-Package></Export-Package>
-						<!-- This should not be necessary because it's the default for Spring DM anyway -->
-						<Spring-Context>META-INF/spring/bundle-context.xml,META-INF/spring/bundle-context-osgi.xml</Spring-Context>
-
-						<!--<Embed-Dependency>*;artifactId=org.apache.felix.main;inline=true</Embed-Dependency>-->
-						<Embed-Dependency>*</Embed-Dependency>
 					</instructions>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- generate manifest automatically once the classes are processed -->
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- This is necessary to tell Maven that there are sources in the groovy folder -->
@@ -136,6 +96,51 @@
 							<sources>
 								<source>src/test/groovy</source>
 							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>create-distribution</id>
+						<phase>install</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<classpath>
+								<element>
+									<groupId>com.google.guava</groupId>
+									<artifactId>guava</artifactId>
+									<version>${guava.ver}</version>
+								</element>
+							</classpath>
+							<source>${basedir}/create_distribution.groovy</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${bundles.dir}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<excludeTransitive>true</excludeTransitive>
 						</configuration>
 					</execution>
 				</executions>
