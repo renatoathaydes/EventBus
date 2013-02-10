@@ -25,9 +25,9 @@
 			<version>${groovy.ver}</version>
 		</dependency>
 		<!--<dependency>-->
-			<!--<groupId>org.codehaus.groovyfx</groupId>-->
-			<!--<artifactId>groovyfx</artifactId>-->
-			<!--<version>0.3.1</version>-->
+		<!--<groupId>org.codehaus.groovyfx</groupId>-->
+		<!--<artifactId>groovyfx</artifactId>-->
+		<!--<version>0.3.1</version>-->
 		<!--</dependency>-->
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
@@ -62,7 +62,6 @@
 				<version>2.3.7</version>
 				<configuration>
 					<instructions>
-						<Import-Package>!org.osgi.service.blueprint,*</Import-Package>
 						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>

@@ -1,5 +1,7 @@
 // script called by the GMaven plugin
 
+
+import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 import static com.google.common.io.Files.copy
@@ -16,10 +18,6 @@ jarFiles.each { jar ->
 	copy jar, new File( bundlesDir, jar.name )
 	log.info "Copied ${jar.name} to bundles directory"
 }
-
-// remove Jars which are not actually OSGi bundles from the bundles directory
-import java.util.zip.ZipInputStream
-import java.util.zip.ZipEntry
 
 // warn if any Jars are not actually OSGi bundles in the bundles directory
 bundlesDir.listFiles().each { jar ->

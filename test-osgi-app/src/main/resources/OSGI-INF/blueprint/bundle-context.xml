@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="lazy">
 
-<!-- regular spring configuration file defining the beans for this
-		   bundle. We've kept the osgi definitions in a separate
-		   configuration file so that this file can easily be used
-		   for integration testing outside of an OSGi environment -->
-
 	<bean id="testOsgiApp" class="com.smartbear.edp.testosgiapp.TestOsgiApp"
-	      init-method="start" destroy-method="stop" activation="eager" >
-		<argument ref="eventManager" />
+			init-method="start" destroy-method="stop"
+			activation="eager" >
+		<property name="gui" ref="appGui" />
+	</bean>
+
+	<bean id="appGui" class="com.smartbear.edp.testosgiapp.swing.AppGui">
+		<property name="managers" ref="eventManagers" />
 	</bean>
 
 </blueprint>
