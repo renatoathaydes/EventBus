@@ -45,4 +45,6 @@ public interface EventManager {
 	 */
 	void post( EventObject event);
 
+	String getName();
+
 }

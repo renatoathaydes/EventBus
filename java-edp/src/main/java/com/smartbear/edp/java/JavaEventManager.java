@@ -93,6 +93,11 @@ public class JavaEventManager implements EventManager {
 		bus.post( event );
 	}
 
+	@Override
+	public String getName() {
+		return JavaEventManager.class.getName();
+	}
+
 }
 
 

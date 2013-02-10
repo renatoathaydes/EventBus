@@ -16,6 +16,7 @@ class GroovyEventManager implements EventManager {
 
 	private EventBus bus = new EventBus()
 	protected handlers = [:]
+	final String name = GroovyEventManager.class.name
 
 	GroovyEventManager() {
 		bus.register this
