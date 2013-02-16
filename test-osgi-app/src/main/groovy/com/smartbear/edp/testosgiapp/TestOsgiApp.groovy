@@ -1,7 +1,7 @@
 package com.smartbear.edp.testosgiapp
 
 import com.smartbear.edp.testosgiapp.swing.AppGui
-import org.osgi.framework.FrameworkUtil
+//import org.osgi.framework.FrameworkUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -24,9 +24,10 @@ class TestOsgiApp {
 	static stars( ) { '*' * 25 }
 
 	void setGui( AppGui gui ) {
+		println "Injecting gui into TestOsgiApp"
 		this.gui = gui
 		//FIXME onClose does not seem to work
-		gui.onClose = { FrameworkUtil.getBundle( this.class )?.bundleContext?.getBundle( 0 )?.stop() }
+		//gui.onClose = { FrameworkUtil.getBundle( this.class )?.bundleContext?.getBundle( 0 )?.stop() }
 		log.info 'Showing the GUI'
 		gui.show()
 	}

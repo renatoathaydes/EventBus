@@ -8,7 +8,7 @@
 	</bean>
 
 	<bean id="appGui" class="com.smartbear.edp.testosgiapp.swing.AppGui">
-		<property name="managers" ref="eventManagers" />
+		<property name="manager" ref="eventManager" />
 	</bean>
 
 </blueprint>

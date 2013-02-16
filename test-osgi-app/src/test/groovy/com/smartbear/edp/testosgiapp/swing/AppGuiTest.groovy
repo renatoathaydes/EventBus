@@ -28,7 +28,6 @@ class AppGuiTest extends GroovyTestCase {
 		] as EventManager
 
 		def gui = new AppGui( )
-		gui.managers = [ manager ]
 		gui.sub  = [
 				handle: { GuiAppEvent event -> log << 'Handling event' }
 		] as EventSubscriber

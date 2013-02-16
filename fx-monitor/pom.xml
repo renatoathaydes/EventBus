@@ -9,16 +9,32 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>test-osgi-app</artifactId>
+	<artifactId>fx-monitor</artifactId>
 	<packaging>bundle</packaging>
-	<name>Test OSGi App for the EDP Project</name>
+	<name>OSGi Bundles FX Monitor</name>
 	<url>https://github.com/renatoathaydes/EventBus</url>
+
+	<properties>
+		<bundles.dir>${project.build.directory}/bundles</bundles.dir>
+	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.ver}</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.codehaus.groovyfx</groupId>-->
+			<!--<artifactId>groovyfx</artifactId>-->
+			<!--<version>0.3.1</version>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>javafx</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
@@ -31,22 +47,6 @@
 
 	<!-- see http://felix.apache.org/site/maven-bundle-plugin-bnd.html for more info -->
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>**/*.xml</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -69,14 +69,18 @@
 				<version>2.3.7</version>
 				<configuration>
 					<instructions>
-						<Export-Package></Export-Package>
+						<Import-Package>javafx.*,com.sun*;resolution:=optional,org.eclipse.swt*;resolution:=optional,sun.*;resolution:=optional,*</Import-Package>
+						<Export-Package>javafx.*</Export-Package>
+						<Embed-Dependency>javafx</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
+
+			<!-- This is necessary to tell Maven that there are sources in the groovy folder -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
+				<version>1.7</version>
 				<executions>
 					<execution>
 						<id>add-source</id>
@@ -100,48 +104,6 @@
 							<sources>
 								<source>src/test/groovy</source>
 							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.groovy.maven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<id>create-distribution</id>
-						<phase>install</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<source>${basedir}/create_distribution.groovy</source>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>true</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-							<excludeTransitive>true</excludeTransitive>
-							<includeScope>runtime</includeScope>
-							<excludeGroupIds>
-								org.codehaus.gmaven.runtime
-							</excludeGroupIds>
 						</configuration>
 					</execution>
 				</executions>

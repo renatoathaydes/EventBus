@@ -1,0 +1,10 @@
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<feature name="TestOsgiApp" version="${project.version}">
+		<bundle>mvn:com.google.guava/guava/${guava.ver}</bundle>
+		<bundle>mvn:org.codehaus.groovy/groovy-all/${groovy.ver}</bundle>
+		<bundle>file:${env.JAVA_HOME}/jre/lib/jfxrt.jar,file:${env.BUNDLE_DESCRIPTORS}/javafx.bnd</bundle>
+		<bundle>mvn:com.smartbear.edp/edp-core/${project.version}</bundle>
+		<bundle>mvn:com.smartbear.edp/java-edp/${project.version}</bundle>
+		<bundle>mvn:com.smartbear.edp/test-osgi-app/${project.version}</bundle>
+	</feature>
+</features>

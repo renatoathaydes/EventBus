@@ -10,12 +10,12 @@
 	<url>https://github.com/renatoathaydes/EventBus</url>
 
 	<properties>
-		<slf4j.version>1.4.3</slf4j.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<gemini.version>2.0.0.BUILD-SNAPSHOT</gemini.version>
 		<equinox.ver>3.2.2</equinox.ver>
 		<groovy.ver>2.0.6</groovy.ver>
 		<guava.ver>13.0.1</guava.ver>
+		<aries.blueprint.version>1.0.0</aries.blueprint.version>
 	</properties>
 
 	<modules>
@@ -24,6 +24,7 @@
 		<module>java-edp</module>
 		<module>scala-edp</module>
 		<module>test-osgi-app</module>
+		<module>fx-monitor</module>
 	</modules>
 
 	<dependencies>
@@ -33,104 +34,145 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.ver}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
+			<groupId>org.eclipse</groupId>
+			<artifactId>osgi</artifactId>
+			<version>3.5.0.v20090520</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-asm</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>cm</artifactId>
+			<version>3.2.0-v20070116</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>services</artifactId>
+			<version>3.1.200-v20070605</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-container-default</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-junit</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-junit-extender-impl</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.logging</groupId>
+			<artifactId>pax-logging-api</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.logging</groupId>
+			<artifactId>pax-logging-service</artifactId>
+			<version>1.5.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.runner</groupId>
+			<artifactId>pax-runner-no-jcl</artifactId>
+			<version>1.4.0</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>${spring.version}</version>
+			<groupId>org.ops4j.pax.swissbox</groupId>
+			<artifactId>pax-swissbox-tinybundles</artifactId>
+			<version>1.2.0</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>org.ops4j.pax.url</groupId>
+			<artifactId>pax-url-mvn</artifactId>
+			<version>1.1.2</version>
+			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-			<version>1.1.1</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
-			<version>5.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>aopalliance.osgi</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>log4j.osgi</artifactId>
-			<version>1.2.15-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.gemini</groupId>
-			<artifactId>org.eclipse.gemini.blueprint.extender</artifactId>
-			<version>${gemini.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.gemini</groupId>
-			<artifactId>org.eclipse.gemini.blueprint.core</artifactId>
-			<version>${gemini.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.gemini</groupId>
-			<artifactId>org.eclipse.gemini.blueprint.io</artifactId>
-			<version>${gemini.version}</version>
+			<version>4.2.0</version>
 		</dependency>
 
-
-		<!-- test scoped dependencies -->
 		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>junit.osgi</artifactId>
-			<version>3.8.2-SNAPSHOT</version>
-			<scope>test</scope>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.2.0</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>junit</groupId>-->
-			<!--<artifactId>junit</artifactId>-->
-			<!--<version>3.8.2</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>org.springframework</groupId>-->
-			<!--<artifactId>spring-test</artifactId>-->
-			<!--<version>${spring.version}</version>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
+
+		<dependency>
+			<groupId>org.apache.aries.blueprint</groupId>
+			<artifactId>org.apache.aries.blueprint</artifactId>
+			<version>${aries.blueprint.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.aries</groupId>
+			<artifactId>org.apache.aries.util</artifactId>
+			<version>${aries.blueprint.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.aries.proxy</groupId>
+			<artifactId>org.apache.aries.proxy</artifactId>
+			<version>${aries.blueprint.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>3.2</version>
+		</dependency>
 
 	</dependencies>
 
