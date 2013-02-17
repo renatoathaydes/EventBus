@@ -24,18 +24,6 @@
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.ver}</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.codehaus.groovyfx</groupId>-->
-			<!--<artifactId>groovyfx</artifactId>-->
-			<!--<version>0.3.1</version>-->
-		<!--</dependency>-->
-		<dependency>
-			<groupId>com.sun</groupId>
-			<artifactId>javafx</artifactId>
-			<version>2.2</version>
-			<scope>system</scope>
-			<systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>com.smartbear.edp</groupId>
 			<artifactId>edp-core</artifactId>
@@ -69,9 +57,7 @@
 				<version>2.3.7</version>
 				<configuration>
 					<instructions>
-						<Import-Package>javafx.*,com.sun*;resolution:=optional,org.eclipse.swt*;resolution:=optional,sun.*;resolution:=optional,*</Import-Package>
-						<Export-Package>javafx.*</Export-Package>
-						<Embed-Dependency>javafx</Embed-Dependency>
+						<Export-Package>!*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

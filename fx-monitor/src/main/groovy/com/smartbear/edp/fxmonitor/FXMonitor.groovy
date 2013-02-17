@@ -1,12 +1,14 @@
 package com.smartbear.edp.fxmonitor
 
 import javafx.application.Application
+import javafx.application.Platform
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
+import javafx.stage.WindowEvent
 
 /**
  *
@@ -16,52 +18,51 @@ class FXMonitor {
 
 	void start( ) {
 		println 'Launching FXMonitorApp!'
-		FxMonitorApp.launch( )
-//		println "Starting FXMonitor with GroovyFX class: ${GroovyFX.class.name}"
-//		GroovyFX.start {
-//			stage( title: 'GroovyFX Hello World', visible: true ) {
-//				scene( fill: BLACK, width: 500, height: 250 ) {
-//					hbox( padding: 60 ) {
-//						text( text: 'Groovy', font: '80pt sanserif' ) {
-//							fill linearGradient( endX: 0, stops: [ PALEGREEN, SEAGREEN ] )
-//						}
-//						text( text: 'FX', font: '80pt sanserif' ) {
-//							fill linearGradient( endX: 0, stops: [ CYAN, DODGERBLUE ] )
-//							effect dropShadow( color: DODGERBLUE, radius: 25, spread: 0.25 )
-//						}
-//					}
-//				}
-//			}
-//		}
+		FXMonitorApp.launchIt()
+		println 'Application launched'
+	}
 
+	void stop( ) {
+		println 'Stopping FXMonitorApp, asking JavaFX Platform to exit'
+		Platform.exit()
 	}
 
 	static void main( args ) {
 		new FXMonitor().start()
 	}
 
-
 }
 
-class FxMonitorApp extends Application {
+public class FXMonitorApp extends Application {
 
 	@Override
-	void start( Stage primaryStage ) throws Exception {
-		primaryStage.setTitle( "Hello World!" );
+	public void start( Stage primaryStage ) throws Exception {
+		primaryStage.title = 'OSGi Monitor Application'
 		Button btn = new Button();
-		btn.setText( "Say 'Hello World'" );
-		btn.setOnAction( new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle( ActionEvent event ) {
-				System.out.println( "Hello World!" );
+		btn.text = "Test"
+		btn.onAction = [
+			handle: { ActionEvent event ->
+				println "Hello World!"
 			}
-		} );
+		] as EventHandler
 
 		StackPane root = new StackPane();
-		root.getChildren().add( btn );
-		primaryStage.setScene( new Scene( root, 300, 250 ) );
+		root.children.add( btn );
+		primaryStage.scene = new Scene( root, 300, 250 )
 		primaryStage.show();
+	}
+
+	@Override
+	void stop( ) {
+		super.stop()
+		println 'FXMonitorApp.stop() called'
+		//TODO stop the bundle
+	}
+
+	static launchIt( ) {
+		Thread.start {
+			Application.launch( FXMonitorApp )
+		}
 	}
 
 }
