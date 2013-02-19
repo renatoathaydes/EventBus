@@ -12,6 +12,7 @@ class FXMonitorTest {
 	void testFX( ) {
 		def monitor = new FXMonitor()
 		monitor.start()
+
 		sleep 10000
 	}
 }
