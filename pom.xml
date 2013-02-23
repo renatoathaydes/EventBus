@@ -24,7 +24,6 @@
 		<module>java-edp</module>
 		<module>scala-edp</module>
 		<module>test-osgi-app</module>
-		<module>fx-monitor</module>
 	</modules>
 
 	<dependencies>
